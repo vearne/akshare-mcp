@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name            = "akshare-mcp"
 version         = "0.0.1"
-description     = ""
+description     = "a mcp server for akshare"
 readme          = "README.md"
 license         = {text = "MIT"}
 authors         = [{name = "vearne", email = "asdwoshiaotian@gmail.com"}]
