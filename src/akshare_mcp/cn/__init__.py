@@ -6,4 +6,4 @@ from .api import get_stock_cash_flow_sheet_by_quarterly_em
 from .api import get_stock_cash_flow_sheet_by_report_em
 from .api import get_stock_balance_sheet_by_yearly_em
 from .api import get_stock_balance_sheet_by_report_em
-from .api import get_stock_zh_a_daily
+from .api import get_stock_zh_a_hist

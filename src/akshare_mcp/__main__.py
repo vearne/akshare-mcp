@@ -25,23 +25,25 @@ def main():
     mcp.add_tool(FunctionTool.from_function(cn.get_stock_cash_flow_sheet_by_report_em))
     mcp.add_tool(FunctionTool.from_function(cn.get_stock_balance_sheet_by_yearly_em))
     mcp.add_tool(FunctionTool.from_function(cn.get_stock_balance_sheet_by_report_em))
-    mcp.add_tool(FunctionTool.from_function(cn.get_stock_zh_a_daily))
+    mcp.add_tool(FunctionTool.from_function(cn.get_stock_zh_a_hist))
     # hk
     mcp.add_tool(FunctionTool.from_function(hk.get_stock_financial_hk_report_em))
     mcp.add_tool(FunctionTool.from_function(hk.get_stock_hk_hist))
     # us
     mcp.add_tool(FunctionTool.from_function(us.get_stock_financial_us_report_em))
-    mcp.add_tool(FunctionTool.from_function(us.get_stock_us_daily))
+    mcp.add_tool(FunctionTool.from_function(us.get_stock_us_hist))
 
-    # mcp.run(transport="streamable-http", port=8902)
-    mcp.run()
+    mcp.run(transport="streamable-http", port=8902)
+    # mcp.run()
 
 
-def get_datetime() -> str:
+def get_datetime() -> dict:
     """Get current date and time with timezone"""
     utc_now = datetime.now(timezone.utc)
     system_tz = utc_now.astimezone().tzinfo
-    return datetime.now(tz=system_tz).strftime("%Y-%m-%d %H:%M:%S %z")
+    return {
+        "result": datetime.now(tz=system_tz).strftime("%Y-%m-%d %H:%M:%S %z")
+    }
 
 if __name__ == "__main__":
     main()

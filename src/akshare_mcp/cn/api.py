@@ -1,6 +1,6 @@
 import akshare as ak
 from pydantic import Field
-from typing import Annotated
+from typing import Annotated, Literal
 
 def get_stock_profit_sheet_by_yearly_em(
         symbol: Annotated[str, Field(description="Stock symbol (e.g. 'SH600519','SZ000025')")],
@@ -134,17 +134,18 @@ def get_stock_balance_sheet_by_report_em(
         df = df.head(recent_n)
     return df.to_json(orient="records")
 
-def get_stock_zh_a_daily(
-        symbol: Annotated[str, Field(description="Stock symbol (e.g. 'SH600519','SZ000025')")],
+def get_stock_zh_a_hist(
+        symbol: Annotated[str, Field(description="Stock symbol (e.g. '600519','000025')")],
         start_date: Annotated[str, Field(description="start date (e.g. '20201103')")],
         end_date: Annotated[str, Field(description="end date (e.g. '20251103')")],
-        adjust: Annotated[str, Field(description="默认为空: 返回不复权的数据; qfq: 返回前复权后的数据; hfq: 返回后复权后的数据; hfq-factor: 返回后复权因子; qfq-factor: 返回前复权因子")],
+        adjust: Annotated[str, Literal["qfq", "hfq", "hfq-factor", "qfq-factor", ""],
+        Field(description="默认为空: 返回不复权的数据; qfq: 返回前复权后的数据; hfq: 返回后复权后的数据; hfq-factor: 返回后复权因子; qfq-factor: 返回前复权因子")],
 ) -> str:
     """
         A股
-        新浪财经-A 股-个股的历史行情数据
-        https://finance.sina.com.cn/realstock/company/sh603843/nc.shtml
+        东方财富网-行情首页-沪深京 A 股-每日行情
+        https://quote.eastmoney.com/concept/sh603777.html?from=classic
     """
-    df = ak.stock_zh_a_daily(symbol=symbol, start_date=start_date, end_date=end_date)
+    df = ak.stock_zh_a_hist(symbol=symbol, start_date=start_date, end_date=end_date, adjust=adjust)
     return df.to_json(orient="records")
 
