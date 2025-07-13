@@ -1,8 +1,9 @@
 import logging
 from datetime import datetime, timezone
-
 from fastmcp import FastMCP
 from fastmcp.tools.tool import FunctionTool
+import argparse
+
 import us
 import hk
 import cn
@@ -12,6 +13,22 @@ logger = logging.getLogger(__name__)
 
 
 def main():
+    # 创建命令行参数解析器
+    parser = argparse.ArgumentParser(description="An MCP server capable of retrieving A-share, Hong Kong stock, and U.S. stock data using AkShare.")
+    parser.add_argument("--bind", default="127.0.0.1", help="Specify the IP address to bind to (default: 127.0.0.1)")
+    parser.add_argument("--port", type=int, default=8902, help="Specify the port number (default: 8902)")
+    parser.add_argument("--http", action="store_true", help="Enable http server")
+
+    # 解析命令行参数
+    args = parser.parse_args()
+
+    mcp = create_mcp()
+    if args.http:
+        mcp.run(transport="streamable-http", port=8902)
+    else:
+        mcp.run()
+
+def create_mcp() -> FastMCP:
     mcp = FastMCP(name="akshare-mcp")
     # base
     mcp.add_tool(FunctionTool.from_function(get_datetime))
@@ -32,10 +49,7 @@ def main():
     # us
     mcp.add_tool(FunctionTool.from_function(us.get_stock_financial_us_report_em))
     mcp.add_tool(FunctionTool.from_function(us.get_stock_us_hist))
-
-    mcp.run(transport="streamable-http", port=8902)
-    # mcp.run()
-
+    return mcp
 
 def get_datetime() -> dict:
     """Get current date and time with timezone"""
