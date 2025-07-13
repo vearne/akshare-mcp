@@ -22,7 +22,7 @@ def main():
 
     mcp = create_mcp()
     if args.http:
-        mcp.run(transport="streamable-http", bind=args.bind, port=args.port)
+        mcp.run(transport="streamable-http", host=args.bind, port=args.port)
     else:
         mcp.run()
 
