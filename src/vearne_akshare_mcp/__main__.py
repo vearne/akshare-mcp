@@ -4,10 +4,8 @@ from fastmcp import FastMCP
 from fastmcp.tools.tool import FunctionTool
 import argparse
 
-import us
-import hk
-import cn
 
+from vearne_akshare_mcp import cn, hk, us
 
 logger = logging.getLogger(__name__)
 
