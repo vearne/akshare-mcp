@@ -2,6 +2,7 @@ import akshare as ak
 from pydantic import Field
 from typing import Annotated, Literal
 
+from vearne_akshare_mcp.data import code_map
 
 def get_stock_financial_us_report_em(
         stock: Annotated[str, Field(description="Stock symbol (e.g. 'TSLA')")],
@@ -40,6 +41,32 @@ def get_stock_us_hist(
         美股
         东方财富网-行情-美股-每日行情
         https://quote.eastmoney.com/us/ENTX.html#fullScreenChart
+        Notice: Stock symbol format is <number>.XXX
+        AkShare is connected to the US stock channel of Eastmoney.
+        It directly makes the abbreviation of the exchange into a "digital prefix"
+        instead of the "AAPL.O, TSLA.O" that we are used to.
+        The rules are summarized as follows:
+          - Nasdaq → 105.XXXX
+          - New York Stock Exchange → 106.XXXX
+          - American Stock Exchange → 107.XXXX
+          - Pink Sheet Market / OTC → 153.XXXX
+        Example: AAPL -> 105.AAPL
     """
-    df = ak.stock_us_hist(symbol=symbol, start_date=start_date, end_date=end_date, adjust=adjust)
-    return df.to_json(orient="records")
+    if not (symbol.startswith('105.') or symbol.startswith('106.') or symbol.startswith('107.') or symbol.startswith('153.')):
+        symbol = code_map.get(symbol, symbol)
+
+    if symbol.find(".") != -1:
+        df = ak.stock_us_hist(symbol=symbol, start_date=start_date, end_date=end_date, adjust=adjust)
+        return df.to_json(orient="records")
+
+
+    for prefix in ["105", "106", "107", "153"]:
+        new_symbol = prefix + '.' + symbol
+        print("new_symbol", new_symbol)
+        try:
+            df = ak.stock_us_hist(symbol=new_symbol, start_date=start_date, end_date=end_date, adjust=adjust)
+            return df.to_json(orient="records")
+        except Exception as e:
+            print("未知错误:", e)
+    return ""
+
