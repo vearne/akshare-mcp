@@ -31,7 +31,7 @@ def get_stock_financial_us_report_em(
 
 
 def get_stock_us_hist(
-        symbol: Annotated[str, Field(description="Stock symbol (e.g. '105.MSFT')")],
+        symbol: Annotated[str, Field(description="Stock symbol (e.g. 'AAPL')")],
         start_date: Annotated[str, Field(description="start date (e.g. '20201103')")],
         end_date: Annotated[str, Field(description="end date (e.g. '20251103')")],
         adjust: Annotated[str, Literal["qfq", "hfq", "hfq-factor", "qfq-factor", ""],
@@ -41,16 +41,6 @@ def get_stock_us_hist(
         美股
         东方财富网-行情-美股-每日行情
         https://quote.eastmoney.com/us/ENTX.html#fullScreenChart
-        Notice: Stock symbol format is <number>.XXX
-        AkShare is connected to the US stock channel of Eastmoney.
-        It directly makes the abbreviation of the exchange into a "digital prefix"
-        instead of the "AAPL.O, TSLA.O" that we are used to.
-        The rules are summarized as follows:
-          - Nasdaq → 105.XXXX
-          - New York Stock Exchange → 106.XXXX
-          - American Stock Exchange → 107.XXXX
-          - Pink Sheet Market / OTC → 153.XXXX
-        Example: AAPL -> 105.AAPL
     """
     if not (symbol.startswith('105.') or symbol.startswith('106.') or symbol.startswith('107.') or symbol.startswith('153.')):
         symbol = code_map.get(symbol, symbol)
