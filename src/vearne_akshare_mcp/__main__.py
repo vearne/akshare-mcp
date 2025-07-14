@@ -11,7 +11,11 @@ def init_logger():
 
 def main() -> None:
     init_logger()
-    logging.info("vearne_akshare_mcp:\nversion：%s", "0.1.0")
+
+    print("#### vearne_akshare_mcp ####")
+    print("Project page: https://github.com/vearne/akshare-mcp")
+    print("Author: <vearne> asdwoshiaotian@gmail.com")
+    print("Version: 0.1.1")
 
     # creating a command line argument parser
     parser = argparse.ArgumentParser(description="An MCP server capable of retrieving A-share, Hong Kong stock, and U.S. stock data using AkShare.")
