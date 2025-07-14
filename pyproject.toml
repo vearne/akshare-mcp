@@ -7,7 +7,7 @@ packages = ["src/vearne_akshare_mcp"]
 
 [project]
 name            = "vearne_akshare_mcp"
-version         = "0.0.9"
+version         = "0.1.0"
 description     = "An MCP server capable of retrieving A-share, Hong Kong stock, and U.S. stock data using AkShare."
 readme          = "README.md"
 license         = {text = "MIT"}
