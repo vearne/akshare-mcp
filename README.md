@@ -21,7 +21,7 @@ Server URL: http://127.0.0.1:8090/mcp/
 "mcpServers": {
     "vearne-akshare-mcp": {
         "command": "uvx",
-        "args": ["--from", "vearne-akshare-mcp", "vearne_akshare_mcp"]
+        "args": ["vearne_akshare_mcp"]
     }
 }
 ```

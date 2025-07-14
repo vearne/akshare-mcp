@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling >= 1.26"]
+requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
@@ -7,7 +7,7 @@ packages = ["src/vearne_akshare_mcp"]
 
 [project]
 name            = "vearne_akshare_mcp"
-version         = "0.0.8"
+version         = "0.0.9"
 description     = "An MCP server capable of retrieving A-share, Hong Kong stock, and U.S. stock data using AkShare."
 readme          = "README.md"
 license         = {text = "MIT"}
@@ -19,9 +19,11 @@ dependencies    = [
     "pydantic==2.11.7"
 ]
 
+[project.scripts]
+vearne_akshare_mcp = "vearne_akshare_mcp.__main__:main"
+
 [project.urls]
 Homepage = "https://github.com/vearne/akshare-mcp"
 
-[project.scripts]
-vearne_akshare_mcp = "vearne_akshare_mcp.__main__:main"
+
 

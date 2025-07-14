@@ -4,20 +4,19 @@ from fastmcp import FastMCP
 from fastmcp.tools.tool import FunctionTool
 import argparse
 
-
 from vearne_akshare_mcp import cn, hk, us
 
-logger = logging.getLogger(__name__)
+def init_logger():
+    logging.basicConfig(format="%(asctime)s %(name)s %(levelname)s %(message)s", level=logging.INFO)
 
-
-def main():
-    # 创建命令行参数解析器
+def main() -> None:
+    # creating a command line argument parser
     parser = argparse.ArgumentParser(description="An MCP server capable of retrieving A-share, Hong Kong stock, and U.S. stock data using AkShare.")
     parser.add_argument("--bind", default="127.0.0.1", help="Specify the IP address to bind to (default: 127.0.0.1)")
     parser.add_argument("--port", type=int, default=8902, help="Specify the port number (default: 8902)")
     parser.add_argument("--http", action="store_true", help="Enable http server")
 
-    # 解析命令行参数
+    # parsing command line arguments
     args = parser.parse_args()
 
     mcp = create_mcp()
